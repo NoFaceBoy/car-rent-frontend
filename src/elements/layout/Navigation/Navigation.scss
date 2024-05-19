@@ -1,0 +1,10 @@
+.nav-buttons-parent > * {
+    width: 10rem;
+    text-align: center;
+    transition: background-color .5s;
+    border-radius: 2rem;
+}
+
+.nav-buttons-parent > *:hover {
+   background-color: rgb(224, 224, 224); 
+}
