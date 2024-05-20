@@ -33,11 +33,7 @@ export default function ItemPage() {
                 ? <Col className='d-flex justify-content-center'><Spinner animation='border' /></Col>
                 : <><Row className="mb-5">
                     <Col>
-                        <Carousel slide={false}>
-                            {car.imageUrls.map((val, index) => <Carousel.Item key={index}>
-                                <img alt={`${index}`} src={val} className="d-block w-100" style={{ objectFit: "cover", height: 500 }} />
-                            </Carousel.Item>)}
-                        </Carousel>
+                        <img src={car.image} className="d-block w-100" style={{ objectFit: "cover", height: 500 }} />
                     </Col>
                 </Row>
                     <h4 className="text-center text-secondary">Characteristics</h4>

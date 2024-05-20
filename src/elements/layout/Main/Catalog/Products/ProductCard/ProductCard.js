@@ -13,7 +13,7 @@ function ProductCard({data}) {
     return (
         <Card border="primary" className="productCard m-2">
 
-            <Card.Img variant="top" src={data.imageUrls[0]} className='rounded' />
+            <Card.Img variant="top" src={data.image} className='rounded' />
             <Card.Title className="text-center">{data.name}</Card.Title>
             <div className="flex-grow-1"/>
             <Card.Text as='div' className="spacingChild">

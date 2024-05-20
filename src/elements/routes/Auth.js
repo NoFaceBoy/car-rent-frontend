@@ -16,9 +16,6 @@ const credentialKey = 'credential';
 
 async function saveUser(user) {
     let res = await registerUser(user);
-    if (res.status === 201) {
-        localStorage.setItem(credentialKey, JSON.stringify({ email: user.email, password: user.password }));
-    }
     return res
 }
 
