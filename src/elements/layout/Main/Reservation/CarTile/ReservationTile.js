@@ -32,7 +32,7 @@ export default function ReservationTile({ data }) {
     return (
         <>
             <Row className="border border-primary rounded p-2 flex-basis-0 justify-content-between my-3 align-items-center">
-                <Col xs={3} onClick={() => navigate(`/catalog/${data.car.id}`)} style={{ "cursor": "pointer" }}>
+                <Col xs={3} onClick={() => navigate(`/cars/${data.car.id}`)} style={{ "cursor": "pointer" }}>
                     <img alt={`${data.car.brand} ${data.car.model}`} src={data.car.image} style={{ width: "6rem", height: "6rem", objectFit: "cover", boxSizing: "content-box" }} />
                     <span className="mx-2 fw-semibold fs-4">
                         {`${data.car.brand} ${data.car.model}`}

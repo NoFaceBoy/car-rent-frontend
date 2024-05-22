@@ -2,9 +2,9 @@ import TextWithGap from "elements/components/TextWithGap/TextWithGap";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import './ProductCard.scss'
+import './CardCard.scss'
 
-function ProductCard({data}) {
+function CarCard({data}) {
     const nav = useNavigate();
 
     if(!data.hasOwnProperty('imageUrls')){
@@ -29,4 +29,4 @@ function ProductCard({data}) {
 
 
 
-export default ProductCard;
+export default CarCard;

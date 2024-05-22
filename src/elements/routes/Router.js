@@ -1,16 +1,15 @@
 import ErrorPage from "elements/layout/Error/ErrorPage";
-import ItemPage from "elements/layout/Main/Item/ItemPage";
-import Catalog from "elements/layout/Main/Catalog/Catalog";
 import Home from "elements/layout/Main/Home/Home";
 import RootLayout from "elements/layout/RootLayout";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import Cart from "elements/layout/Main/Cart/Cart";
 import Success from "elements/layout/Main/Reservation/Success/Success";
 import Footer from "elements/layout/Footer/Footer";
 import Login from "elements/layout/Login/Login";
 import Sign from "elements/layout/Login/Sign";
 import Reservation from "elements/layout/Main/Reservation/Reservation";
 import ReservationHistory from "elements/layout/Main/Reservation/ReservationHistory";
+import CarListing from "elements/layout/Main/CarListing/CarListing";
+import CarPage from "elements/layout/Main/Car/CarPage";
 
 
 
@@ -28,17 +27,13 @@ export default function Router() {
                     element: <Home />,
                 },
                 {
-                    path: "/catalog",
-                    element: <Catalog />
+                    path: "/cars",
+                    element: <CarListing />
                 },
                 {
-                    path: "/catalog/:id",
+                    path: "/cars/:id",
                     loader: ({ params }) => Number(params.id),
-                    element: <ItemPage />
-                },
-                {
-                    path: "/cart",
-                    element: <Cart />
+                    element: <CarPage />
                 },
                 {
                     path: "/reservation",

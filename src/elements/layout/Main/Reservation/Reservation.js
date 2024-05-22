@@ -1,8 +1,5 @@
-import { clearProducts } from "data/redux/slice";
-import { useFormik, useFormikContext } from "formik";
-import { PhoneNumberUtil } from "google-libphonenumber";
+import { useFormik } from "formik";
 import { Alert, Button, Col, Container, FloatingLabel, Form, Row, Spinner } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -10,15 +7,15 @@ import './Reservation.scss';
 import { useContext, useState } from "react";
 import AuthContext from "data/AuthContext";
 import { VscAccount } from "react-icons/vsc";
-import DataContext from "data/DataContext";
 import CarTile from "./CarTile/CarTile";
 import ReservationContext from "data/ReservationContext";
+import CarContext from "data/CarContext";
 
 export default function Reservation() {
     const nav = useNavigate();
 
     const { user } = useContext(AuthContext);
-    const { chosenCar } = useContext(DataContext);
+    const { chosenCar } = useContext(CarContext);
     const { putReservation } = useContext(ReservationContext);
     const [errorText, setErrorText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -63,7 +60,7 @@ export default function Reservation() {
             }
             if (res === 402) {
                 setErrorText("Couldn't authenticate")
-            } else if (res == 400) {
+            } else if (res === 400) {
                 setErrorText("Couldn't put reservation");
             } else {
                 setErrorText("Something really bad happened");
@@ -122,7 +119,7 @@ export default function Reservation() {
                     {(chosenCar === null) ?
                         <div className="d-flex align-items-center">
                             <div className="flex-grow-1">No car chosen</div>
-                            <Button onClick={() => nav('/catalog')}>Go to catalog</Button>
+                            <Button onClick={() => nav('/cars')}>Go to car listing</Button>
 
                         </div>
 

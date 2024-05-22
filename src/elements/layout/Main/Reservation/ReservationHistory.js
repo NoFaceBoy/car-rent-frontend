@@ -25,8 +25,15 @@ export default function ReservationHistory() {
         <Container as={'main'} className="flex-grow-0 justify-content-center p-5">
             {(isLoading) ?
                 <Col className='d-flex justify-content-center'><Spinner animation='border' /></Col>
-                : (reservations === null ||  reservations.length === 0) ? <h3>You haven't reserved any car yet...</h3> :
-                    reservations.map(val => (user !== null && user.privilege_level === "PRIVILEDGED") ? <AdminReservationTile key={val.id} data={val} /> : <ReservationTile key={val.id} data={val} />)}
+                : (reservations === null || reservations.length === 0)
+                    ? <p className="text-center text-secondary">You haven't reserved any car yet</p>
+                    : reservations.map(val => {
+                        if (user !== null && user.privilege_level === "PRIVILEDGED") {
+                            return <AdminReservationTile key={val.id} data={val} />;
+                        }
+                        return <ReservationTile key={val.id} data={val} />;
+                    })
+            }
 
         </Container>
     );

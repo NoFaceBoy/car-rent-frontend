@@ -1,23 +1,23 @@
-import DataContext from "data/DataContext";
 import TextWithGap from "elements/components/TextWithGap/TextWithGap";
 import { useContext, useEffect, useState } from "react";
-import { Col, Row, Carousel, Container, Button, Spinner, Alert } from "react-bootstrap";
+import { Col, Row, Container, Button, Spinner } from "react-bootstrap";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
-import './ItemPage.scss';
+import './CarPage.scss';
+import CarContext from "data/CarContext";
 
-export default function ItemPage() {
+export default function CarPage() {
     const id = useLoaderData();
-    const { loadAllById, setChosenCar } = useContext(DataContext);
+    const { getCarById, setChosenCar } = useContext(CarContext);
     const nav = useNavigate();
     const [car, setCar] = useState(undefined);
 
     const load = () => {
-        loadAllById(id).then((val) => {
+        getCarById(id).then((val) => {
             setCar(val);
         })
     };
-    useEffect(load, [id, loadAllById]);
+    useEffect(load, [id, getCarById]);
 
     const onReservationClick = () => {
         if (car !== undefined) {
@@ -33,7 +33,7 @@ export default function ItemPage() {
                 ? <Col className='d-flex justify-content-center'><Spinner animation='border' /></Col>
                 : <><Row className="mb-5">
                     <Col>
-                        <img src={car.image} className="d-block w-100" style={{ objectFit: "cover", height: 500 }} />
+                        <img alt="" src={car.image} className="d-block w-100" style={{ objectFit: "cover", height: 500 }} />
                     </Col>
                 </Row>
                     <h4 className="text-center text-secondary">Characteristics</h4>

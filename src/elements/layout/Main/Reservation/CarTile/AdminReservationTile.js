@@ -1,7 +1,7 @@
 import ReservationContext from "data/ReservationContext";
 import { useFormik } from "formik";
 import { useContext, useState } from "react";
-import { Button, ButtonGroup, CloseButton, Col, FloatingLabel, Modal, Row, Spinner, Form } from "react-bootstrap";
+import { Button, Col, FloatingLabel, Row, Spinner, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -59,7 +59,7 @@ export default function AdminReservationTile({ data }) {
         <>
             <Row className="border border-primary rounded p-2  my-3">
                 <Row className="flex-basis-0 justify-content-between align-items-center">
-                    <Col xs={3} onClick={() => navigate(`/catalog/${data.car.id}`)} style={{ "cursor": "pointer" }}>
+                    <Col xs={3} onClick={() => navigate(`/cars/${data.car.id}`)} style={{ "cursor": "pointer" }}>
                         <img alt={`${data.car.brand} ${data.car.model}`} src={data.car.image} style={{ width: "6rem", height: "6rem", objectFit: "cover", boxSizing: "content-box" }} />
                         <span className="mx-2 fw-semibold fs-4">
                             {`${data.car.brand} ${data.car.model}`}

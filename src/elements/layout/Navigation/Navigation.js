@@ -28,7 +28,7 @@ function Navigation() {
                             </FLink>
                         </Nav.Item>
                         <Nav.Item as="li">
-                            <FLink to="/catalog">
+                            <FLink to="/cars">
                                 <Nav.Link as="span">Cars</Nav.Link>
                             </FLink>
                         </Nav.Item>

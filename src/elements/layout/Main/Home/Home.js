@@ -1,41 +1,10 @@
 
-import DataContext from 'data/DataContext';
-import { useContext, useEffect, useState } from 'react';
-import { Button, Col, Container, Image, Row, Spinner } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 
 import MainImage from './image.png';
 
-function Home(props) {
-    const { value, loadMainByFilter } = useContext(DataContext);
-    const [loadedProducts, setloadedProducts] = useState([]);
-    const [isLoading, setLoading] = useState(false);
-    const navigate = useNavigate();
-
-    let back = [];
-
-    function loadMore() {
-        if (back.length === 0) {
-            setLoading(true);
-            loadMainByFilter({ sort: "More expensive" }).then((val) => {
-                back = val;
-                loadMore();
-                setLoading(false);
-            });
-
-        }
-        else if (loadedProducts.length === back.length || loadedProducts.length > 12) {
-            navigate("/catalog");
-        } else {
-            let mrows = back.slice(0, loadedProducts.length + 3);
-
-            setloadedProducts(mrows);
-
-        }
-    }
-
-    useEffect(loadMore, []);
-
+function Home() {
+    
     return (
         <Container as="main">
             <Row className='justify-content-stretch my-5 pb-5'>
