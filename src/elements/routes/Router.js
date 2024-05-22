@@ -10,6 +10,7 @@ import Reservation from "elements/layout/Main/Reservation/Reservation";
 import ReservationHistory from "elements/layout/Main/Reservation/ReservationHistory";
 import CarListing from "elements/layout/Main/CarListing/CarListing";
 import CarPage from "elements/layout/Main/Car/CarPage";
+import CarEdit from "elements/layout/Main/Car/CarEdit";
 
 
 
@@ -34,6 +35,15 @@ export default function Router() {
                     path: "/cars/:id",
                     loader: ({ params }) => Number(params.id),
                     element: <CarPage />
+                },
+                {
+                    path: "/cars/:id/edit",
+                    loader: ({ params }) => Number(params.id),
+                    element: <CarEdit />
+                },
+                {
+                    path: "/cars/add",
+                    element: <CarEdit />
                 },
                 {
                     path: "/reservation",

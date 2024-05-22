@@ -1,16 +1,20 @@
 import TextWithGap from "elements/components/TextWithGap/TextWithGap";
 import { useContext, useEffect, useState } from "react";
-import { Col, Row, Container, Button, Spinner } from "react-bootstrap";
+import { Col, Row, Container, Button, Spinner, Modal } from "react-bootstrap";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
 import './CarPage.scss';
 import CarContext from "data/CarContext";
+import AuthContext from "data/AuthContext";
 
 export default function CarPage() {
     const id = useLoaderData();
-    const { getCarById, setChosenCar } = useContext(CarContext);
+    const { getCarById, setChosenCar, deleteCar } = useContext(CarContext);
     const nav = useNavigate();
+    const [isLoading, setLoading] = useState(false);
     const [car, setCar] = useState(undefined);
+    const [showModal, setShowModal] = useState(false);
+    const { user } = useContext(AuthContext);
 
     const load = () => {
         getCarById(id).then((val) => {
@@ -25,6 +29,14 @@ export default function CarPage() {
             nav('/reservation');
         }
     };
+
+    const onDelete = async () => {
+        setShowModal(false);
+        setLoading(true);
+        await deleteCar(id);
+        setLoading(false);
+        nav('/cars');
+    }
 
     let classesForGap = "border-dotted mx-4";
     return (
@@ -57,7 +69,36 @@ export default function CarPage() {
                             <Button variant="primary width-form" onClick={onReservationClick}>Reserve</Button>
                         </Col>
 
-                    </Row></>
+                    </Row>
+                    {(user !== null && user.privilege_level === 'PRIVILEDGED') &&
+                        <>
+                            <Row>
+                                <Button className="width-form mx-2" onClick={() => nav(`/cars/${id}/edit`)}>Edit</Button>
+                                <Button variant="danger" className="width-form mx-2" onClick={() => setShowModal(true)}>
+                                    {(isLoading)
+                                        ? <div className="position-relative"> <Spinner animation="border" size="sm"></Spinner></div>
+                                        : <>Delete</>
+                                    }
+                                </Button>
+                            </Row>
+                            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Are you really want to delete this car?</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>{'It doesn\'t destroy it in reality(('}</Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="danger" onClick={onDelete}>
+                                        Delete
+                                    </Button>
+                                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                                        Go back
+                                    </Button>
+                                </Modal.Footer>
+
+                            </Modal>
+                        </>
+                    }
+                </>
             }
         </Container>
     );
