@@ -41,7 +41,7 @@ function Navigation() {
                         </DropdownToggle>
                         <DropdownMenu>
                             {(user !== null) ?<>
-                            <Dropdown.Item>Reservations</Dropdown.Item>
+                            <Dropdown.Item onClick={()=> navigate('/reservation/history')}>Reservations</Dropdown.Item>
                             <Dropdown.Item onClick={signOut}>Sign out</Dropdown.Item></>
                             :
                             <Dropdown.Item onClick={()=> navigate('/login')}>Login</Dropdown.Item>

@@ -10,11 +10,12 @@ import Footer from "elements/layout/Footer/Footer";
 import Login from "elements/layout/Login/Login";
 import Sign from "elements/layout/Login/Sign";
 import Reservation from "elements/layout/Main/Reservation/Reservation";
+import ReservationHistory from "elements/layout/Main/Reservation/ReservationHistory";
 
 
 
 export default function Router() {
-    
+
 
     return <RouterProvider router={createBrowserRouter([
         {
@@ -46,21 +47,25 @@ export default function Router() {
                 {
                     path: "/cart/success",
                     element: <Success />
+                },
+                {
+                    path: "/reservation/history",
+                    element: <ReservationHistory />
                 }
 
             ]
         },
         {
             path: "/login",
-            element: <><Outlet/><Footer/></>,
-            children:[
+            element: <><Outlet /><Footer /></>,
+            children: [
                 {
                     index: true,
-                    element: <Login/>,
+                    element: <Login />,
                 },
                 {
                     path: "sign",
-                    element: <Sign/>,
+                    element: <Sign />,
                 }
             ]
         }

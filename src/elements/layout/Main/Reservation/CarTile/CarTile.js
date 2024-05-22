@@ -1,9 +1,10 @@
-import { CloseButton, Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 export default function CarTile({ data }) {
 
     const navigate = useNavigate();
+    console.log(data);
     return (
         <Row className="border border-primary rounded p-2 flex-basis-0 justify-content-between my-3">
             <Col xs={7} onClick={()=> navigate(`/catalog/${data.car.id}`)} style={{"cursor": "pointer"}}>

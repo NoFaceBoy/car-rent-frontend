@@ -20,10 +20,6 @@ async function saveUser(user) {
 }
 
 
-function deleteUser() {
-    localStorage.removeItem(credentialKey);
-}
-
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     async function loadUser() {
@@ -57,7 +53,6 @@ export default function AuthProvider({ children }) {
         }
     }
     const signOut = () => {
-        deleteUser();
         setUser(null);
     } 
 
