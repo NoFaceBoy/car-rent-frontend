@@ -43,6 +43,7 @@ export default function Router() {
                 },
                 {
                     path: "/cars/add",
+                    loader: () => null,
                     element: <CarEdit />
                 },
                 {
