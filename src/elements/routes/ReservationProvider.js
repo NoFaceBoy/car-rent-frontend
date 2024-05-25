@@ -1,10 +1,11 @@
 import AuthContext from "data/AuthContext";
 import ReservationContext from "data/ReservationContext";
-import { submitReservation } from "data/reservationApi";
-import { useContext } from "react";
+import { updateReservationById, getReservationByUserId, submitReservation } from "data/reservationApi";
+import { useContext, useState } from "react";
 
 export default function ReservationProvider({ children }) {
     const { user } = useContext(AuthContext);
+    const [reservations, setReservations] = useState(null);
     const putReservation = async (car_id, date_from, date_till) => {
         if (user === null) {
             return 402;
@@ -12,8 +13,31 @@ export default function ReservationProvider({ children }) {
         let res = await submitReservation({ user_id: user.id, car_id: car_id, start_date: date_from, end_date: date_till });
         return res;
     };
+    const getReservationByUser = async () => {
+        if (user === null) {
+            setReservations([]);
+            return;
+        }
+        const res = await getReservationByUserId(user.id);
+        if (res.status !== 200) {
+            setReservations([]);
+            return;
+        }
+        setReservations(res.data);
+    };
+
+    const updateReservation = async (reservation_request_object) => {
+        if (user === null) {
+            return;
+        }
+        await updateReservationById(reservation_request_object);
+        await getReservationByUser();
+    }
     return <ReservationContext.Provider value={{
-        putReservation
+        reservations,
+        putReservation,
+        getReservationByUser,
+        updateReservation,
     }}>
         {children}
     </ReservationContext.Provider>

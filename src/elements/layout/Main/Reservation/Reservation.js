@@ -1,8 +1,5 @@
-import { clearProducts } from "data/redux/slice";
-import { useFormik, useFormikContext } from "formik";
-import { PhoneNumberUtil } from "google-libphonenumber";
+import { useFormik } from "formik";
 import { Alert, Button, Col, Container, FloatingLabel, Form, Row, Spinner } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -10,15 +7,15 @@ import './Reservation.scss';
 import { useContext, useState } from "react";
 import AuthContext from "data/AuthContext";
 import { VscAccount } from "react-icons/vsc";
-import DataContext from "data/DataContext";
 import CarTile from "./CarTile/CarTile";
 import ReservationContext from "data/ReservationContext";
+import CarContext from "data/CarContext";
 
 export default function Reservation() {
     const nav = useNavigate();
 
     const { user } = useContext(AuthContext);
-    const { chosenCar } = useContext(DataContext);
+    const { chosenCar } = useContext(CarContext);
     const { putReservation } = useContext(ReservationContext);
     const [errorText, setErrorText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +27,12 @@ export default function Reservation() {
             date_till: '',
         },
         validationSchema: Yup.object({
-            date_from: Yup.date().required(),
+            date_from: Yup.date().test('actuallity', (val) => {
+                if (Date.parse(val) > Date.now()) {
+                    return true;
+                }
+                return false;
+            }).required(),
             date_till: Yup.date().required(),
         }),
         onSubmit: async () => {
@@ -58,7 +60,7 @@ export default function Reservation() {
             }
             if (res === 402) {
                 setErrorText("Couldn't authenticate")
-            } else if (res == 400) {
+            } else if (res === 400) {
                 setErrorText("Couldn't put reservation");
             } else {
                 setErrorText("Something really bad happened");
@@ -69,10 +71,16 @@ export default function Reservation() {
     });
 
     const getDays = () => {
-        let diff = new Date(formik.values.date_till) - new Date(formik.values.date_from);
+        let diff = Date.parse(formik.values.date_till) - Date.parse(formik.values.date_from);
         diff = diff / 1000 / 60 / 60 / 24;
         diff = Math.round(diff);
-        if (diff < 1 || isNaN(diff) || new Date(formik.values.date_from) < Date.now()) {
+        if (Date.parse(formik.values.date_from) < Date.now()) {
+            diff = 0;
+        }
+        if (isNaN(diff)) {
+            diff = 0;
+        }
+        if (diff < 1) {
             diff = 0;
         }
         return diff;
@@ -97,7 +105,7 @@ export default function Reservation() {
                 <Col className="flex-grow-0">
                     <h4>Pick a date</h4>
                     <FloatingLabel label="Date from" className="width-40 mb-3">
-                        <Form.Control min={Date.now().toString()} max={formik.values.date_till} type="date" placeholder="Date from" {...formik.getFieldProps('date_from')} isInvalid={formik.touched.date_from && formik.errors.date_from} />
+                        <Form.Control min={new Date(Date.now()).toDateString()} max={formik.values.date_till} type="date" placeholder="Date from" {...formik.getFieldProps('date_from')} isInvalid={formik.touched.date_from && formik.errors.date_from} />
                     </FloatingLabel>
                     <FloatingLabel label="Date until" className="width-40">
                         <Form.Control min={formik.values.date_from} type="date" placeholder="Date until" {...formik.getFieldProps('date_till')} isInvalid={formik.touched.date_till && formik.errors.date_till} />
@@ -111,7 +119,7 @@ export default function Reservation() {
                     {(chosenCar === null) ?
                         <div className="d-flex align-items-center">
                             <div className="flex-grow-1">No car chosen</div>
-                            <Button onClick={() => nav('/catalog')}>Go to catalog</Button>
+                            <Button onClick={() => nav('/cars')}>Go to car listing</Button>
 
                         </div>
 

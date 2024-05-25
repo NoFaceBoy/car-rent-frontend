@@ -2,9 +2,9 @@ import TextWithGap from "elements/components/TextWithGap/TextWithGap";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import './ProductCard.scss'
+import './CardCard.scss'
 
-function ProductCard({data}) {
+function CarCard({data}) {
     const nav = useNavigate();
 
     if(!data.hasOwnProperty('imageUrls')){
@@ -13,7 +13,7 @@ function ProductCard({data}) {
     return (
         <Card border="primary" className="productCard m-2">
 
-            <Card.Img variant="top" src={data.imageUrls[0]} className='rounded' />
+            <Card.Img variant="top" src={data.image} className='rounded' />
             <Card.Title className="text-center">{data.name}</Card.Title>
             <div className="flex-grow-1"/>
             <Card.Text as='div' className="spacingChild">
@@ -29,4 +29,4 @@ function ProductCard({data}) {
 
 
 
-export default ProductCard;
+export default CarCard;

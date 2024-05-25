@@ -13,7 +13,7 @@ import AuthContext from "data/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Navigation() {
-    const {user, signOut} = useContext(AuthContext);
+    const { user, signOut } = useContext(AuthContext);
     const navigate = useNavigate();
     return (
         <Navbar className="px-1 border-bottom border-dark" expand="lg" bg="light" >
@@ -28,7 +28,7 @@ function Navigation() {
                             </FLink>
                         </Nav.Item>
                         <Nav.Item as="li">
-                            <FLink to="/catalog">
+                            <FLink to="/cars">
                                 <Nav.Link as="span">Cars</Nav.Link>
                             </FLink>
                         </Nav.Item>
@@ -40,11 +40,13 @@ function Navigation() {
                             <VscAccount style={{ 'width': '1rem', 'height': '1rem' }} />
                         </DropdownToggle>
                         <DropdownMenu>
-                            {(user !== null) ?<>
-                            <Dropdown.Item>Reservations</Dropdown.Item>
-                            <Dropdown.Item onClick={signOut}>Sign out</Dropdown.Item></>
-                            :
-                            <Dropdown.Item onClick={()=> navigate('/login')}>Login</Dropdown.Item>
+                            {(user !== null) ? <>
+                                <Dropdown.Item onClick={() => navigate('/reservation/history')}>Reservations</Dropdown.Item>
+                                {(user.privilege_level === "PRIVILEDGED") &&
+                                    <Dropdown.Item onClick={() => navigate('/cars/add')}>Add a car</Dropdown.Item>}
+                                <Dropdown.Item onClick={signOut}>Sign out</Dropdown.Item></>
+                                :
+                                <Dropdown.Item onClick={() => navigate('/login')}>Login</Dropdown.Item>
                             }
                         </DropdownMenu>
                     </Dropdown>

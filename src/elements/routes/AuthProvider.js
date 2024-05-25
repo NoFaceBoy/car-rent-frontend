@@ -16,16 +16,9 @@ const credentialKey = 'credential';
 
 async function saveUser(user) {
     let res = await registerUser(user);
-    if (res.status === 201) {
-        localStorage.setItem(credentialKey, JSON.stringify({ email: user.email, password: user.password }));
-    }
     return res
 }
 
-
-function deleteUser() {
-    localStorage.removeItem(credentialKey);
-}
 
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
@@ -60,7 +53,6 @@ export default function AuthProvider({ children }) {
         }
     }
     const signOut = () => {
-        deleteUser();
         setUser(null);
     } 
 

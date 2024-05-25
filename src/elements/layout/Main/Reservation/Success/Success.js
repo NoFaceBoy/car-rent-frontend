@@ -1,4 +1,3 @@
-import { useFormik } from "formik";
 import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import SuccessImg from "./SuccessImg";
@@ -16,7 +15,7 @@ export default function Success() {
                 Your order was sent to processing!<br/>
                 Check your email box for further information.
             </p>
-            <Button variant="primary" className="width-12 my-5" onClick={() => nav('/catalog')}>Go to catalog</Button>
+            <Button variant="primary" className="width-12 my-5" onClick={() => nav('/reservation/history')}>Go to your reservations</Button>
         </Container>
     );
 }
