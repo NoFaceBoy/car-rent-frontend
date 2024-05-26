@@ -12,8 +12,7 @@ export default function Success() {
             <SuccessImg/>
             <span className="fs-3 fw-bold">Success!</span>
             <p className="fs-5 text-center">
-                Your order was sent to processing!<br/>
-                Check your email box for further information.
+                Your payment was confirmed
             </p>
             <Button variant="primary" className="width-12 my-5" onClick={() => nav('/reservation/history')}>Go to your reservations</Button>
         </Container>

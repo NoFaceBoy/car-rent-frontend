@@ -45,7 +45,7 @@ export default function AdminReservationTile({ data }) {
     const formik = useFormik({
         initialValues: { fines: "", },
         validationSchema: Yup.object({
-            fines: Yup.number().positive().required(),
+            fines: Yup.number().min(0).required(),
         }),
         onSubmit: onCheck,
     })

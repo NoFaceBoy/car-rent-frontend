@@ -54,7 +54,7 @@ export default function Reservation() {
             let res = await putReservation(chosenCar.id, formik.values["date from"], formik.values["date until"]);
 
             if (res === 201) {
-                nav("/cart/success");
+                nav("/reservation/payment");
                 return;
             }
             if (res === 402) {

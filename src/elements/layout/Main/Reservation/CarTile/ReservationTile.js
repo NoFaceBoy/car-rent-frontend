@@ -26,6 +26,7 @@ export default function ReservationTile({ data }) {
     const onPayment = async () => {
         setIsLoading(true);
         await updateReservation({reservation_id: data.id, action: 'final-payment'});
+        navigate('/reservation/payment');
         setIsLoading(false);
     }
 
