@@ -6,15 +6,16 @@ export async function getCarById(id) {
     return res;
 }
 
-export async function getCarsByFilter (param) {
-    let res = await axios.get("/api/cars").then((resposnse) => resposnse.data);
-    return res;
+export async function getCarsByFilter(params) {
+    const query = new URLSearchParams(params).toString();
+    const res = await axios.get(`/api/cars/filtered?${query}`);
+    return res.data;
 }
 
 export async function addCar(car_obj) {
     let res;
     try {
-        res = await axios.post("/api/cars/add", car_obj).then((resp) => {return {status: resp.status, data: resp.data}});
+        res = await axios.post("/api/cars/add", car_obj).then((response) => {return {status: response.status, data: response.data}});
     } catch (err) {
         res = {status: err.status, data: null};
     }

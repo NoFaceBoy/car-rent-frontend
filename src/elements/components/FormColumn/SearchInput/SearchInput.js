@@ -14,7 +14,7 @@ function SearchInput({ label, state }) {
     return (
         <FilteringColumn label={label}>
 
-            <Form.Control className="width-form" placeholder="Enter serch...." value={value} onChange={callback} />
+            <Form.Control className="width-form" placeholder="Search for car...." value={value} onChange={callback} />
         </FilteringColumn>
     );
 }
