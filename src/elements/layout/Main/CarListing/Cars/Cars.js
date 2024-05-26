@@ -15,12 +15,11 @@ function Cars() {
         if (cars.length === 0) {
             setLoading(true);
             getFilteredCars().then(() => setLoading(false));
-
         }
     }
     useEffect(loadMore, []);
     return (
-        <section className="d-flex flex-wrap p-5">
+        <section className="d-flex justify-content-center flex-wrap p-5">
             {(isLoading) ? <Col className='d-flex justify-content-center'><Spinner animation='border' /></Col> : cars.map(val => <CarCard key={val.id} data={val} />)}
         </section>
     );

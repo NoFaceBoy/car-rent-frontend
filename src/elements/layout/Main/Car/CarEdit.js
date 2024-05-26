@@ -82,7 +82,7 @@ function CarEdit() {
     }, []);
     return (
         <Container className="my-2">
-            <Toast show={isSuccessful} onClose={() => setSuccess(false)} className="width-20">
+            <Toast autohide show={isSuccessful} onClose={() => setSuccess(false)} className="width-20 position-absolute">
                 <Toast.Header>
                     Car was successfully added!
                 </Toast.Header>
