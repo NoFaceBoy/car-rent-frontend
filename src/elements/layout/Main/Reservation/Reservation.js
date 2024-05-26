@@ -17,53 +17,52 @@ export default function Reservation() {
     const { user } = useContext(AuthContext);
     const { chosenCar } = useContext(CarContext);
     const { putReservation } = useContext(ReservationContext);
-    const [errorText, setErrorText] = useState("");
+    const [otherError, setErrorText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const formik = useFormik({
 
         initialValues: {
-            date_from: '',
-            date_till: '',
+            "date from": '',
+            "date until": '',
         },
         validationSchema: Yup.object({
-            date_from: Yup.date().test('actuallity', (val) => {
+            "date from": Yup.date().test('actuallity', 'date from should be after today', (val) => {
                 if (Date.parse(val) > Date.now()) {
                     return true;
                 }
                 return false;
             }).required(),
-            date_till: Yup.date().required(),
+            "date until": Yup.date().required(),
         }),
         onSubmit: async () => {
             if (user === null) {
-                setErrorText("You should be logged in");
+                setErrorText("you should be logged in");
                 return;
             }
             if (chosenCar === null) {
-                setErrorText("You should choose a car");
+                setErrorText("you should choose a car");
                 return;
             }
             setIsLoading(true);
             const days = getDays();
             if (days === 0) {
-                formik.setFieldError('date_from', 'Wrong');
-                formik.setFieldError('date_till', 'Wrong');
-                setErrorText("Wrong time range");
+                formik.setFieldError('date from', 'wrong date from');
+                formik.setFieldError('date until', 'Wrong date until');
                 return;
             }
-            let res = await putReservation(chosenCar.id, formik.values.date_from, formik.values.date_till);
+            let res = await putReservation(chosenCar.id, formik.values["date from"], formik.values["date until"]);
 
             if (res === 201) {
                 nav("/cart/success");
                 return;
             }
             if (res === 402) {
-                setErrorText("Couldn't authenticate")
+                setErrorText("couldn't authenticate with user")
             } else if (res === 400) {
-                setErrorText("Couldn't put reservation");
+                setErrorText("couldn't put reservation");
             } else {
-                setErrorText("Something really bad happened");
+                setErrorText("something really bad happened");
             }
             setIsLoading(false);
         },
@@ -71,10 +70,10 @@ export default function Reservation() {
     });
 
     const getDays = () => {
-        let diff = Date.parse(formik.values.date_till) - Date.parse(formik.values.date_from);
+        let diff = Date.parse(formik.values["date until"]) - Date.parse(formik.values["date from"]);
         diff = diff / 1000 / 60 / 60 / 24;
         diff = Math.round(diff);
-        if (Date.parse(formik.values.date_from) < Date.now()) {
+        if (Date.parse(formik.values["date from"]) < Date.now()) {
             diff = 0;
         }
         if (isNaN(diff)) {
@@ -85,6 +84,17 @@ export default function Reservation() {
         }
         return diff;
     };
+    let errorText = otherError;
+    if (formik.submitCount !== 0 && !formik.isValid) {
+        errorText = Object.values(formik.errors).reduce(((prev, val) => prev + val + ', '), '');
+
+    }
+    if (errorText.length > 1) {
+        errorText = errorText.charAt(0).toUpperCase() + errorText.substring(1, errorText.length - 2);
+
+    } else {
+        errorText = "";
+    }
 
     return (
         <Container as={'main'} className="flex-grow-0 justify-content-center">
@@ -105,10 +115,13 @@ export default function Reservation() {
                 <Col className="flex-grow-0">
                     <h4>Pick a date</h4>
                     <FloatingLabel label="Date from" className="width-40 mb-3">
-                        <Form.Control min={new Date(Date.now()).toDateString()} max={formik.values.date_till} type="date" placeholder="Date from" {...formik.getFieldProps('date_from')} isInvalid={formik.touched.date_from && formik.errors.date_from} />
+                        <Form.Control min={new Date(Date.now()).toDateString()} max={formik.values["date until"]}
+                            type="date" placeholder="Date from" {...formik.getFieldProps('date from')}
+                            isInvalid={formik.touched["date from"] && formik.errors["date from"]} />
                     </FloatingLabel>
                     <FloatingLabel label="Date until" className="width-40">
-                        <Form.Control min={formik.values.date_from} type="date" placeholder="Date until" {...formik.getFieldProps('date_till')} isInvalid={formik.touched.date_till && formik.errors.date_till} />
+                        <Form.Control min={formik.values["date from"]} type="date" placeholder="Date until"
+                            {...formik.getFieldProps('date until')} isInvalid={formik.touched["date until"] && formik.errors["date until"]} />
                     </FloatingLabel>
 
                 </Col>

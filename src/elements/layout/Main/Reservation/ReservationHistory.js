@@ -22,7 +22,7 @@ export default function ReservationHistory() {
     useEffect(loadMore, []);
 
     return (
-        <Container as={'main'} className="flex-grow-0 justify-content-center p-5">
+        <Container as={'main'} className="flex-grow-0 justify-content-center p-5 min-vh-100">
             {(isLoading) ?
                 <Col className='d-flex justify-content-center'><Spinner animation='border' /></Col>
                 : (reservations === null || reservations.length === 0)

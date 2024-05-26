@@ -1,7 +1,7 @@
 import AuthContext from "data/AuthContext";
 import ReservationContext from "data/ReservationContext";
 import { updateReservationById, getReservationByUserId, submitReservation } from "data/reservationApi";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function ReservationProvider({ children }) {
     const { user } = useContext(AuthContext);
@@ -18,7 +18,7 @@ export default function ReservationProvider({ children }) {
             setReservations([]);
             return;
         }
-        const res = await getReservationByUserId(user.id);
+        const res = await getReservationByUserId(user);
         if (res.status !== 200) {
             setReservations([]);
             return;
@@ -33,6 +33,7 @@ export default function ReservationProvider({ children }) {
         await updateReservationById(reservation_request_object);
         await getReservationByUser();
     }
+    useEffect(() => {getReservationByUser()}, [user]);
     return <ReservationContext.Provider value={{
         reservations,
         putReservation,

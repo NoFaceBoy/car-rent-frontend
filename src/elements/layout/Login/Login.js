@@ -10,7 +10,6 @@ export default function Login(){
 
     const {checkLogin} = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
-    const [otherError, setOtherError] = useState("");
 
     const formik = useFormik({
         initialValues: {
@@ -27,16 +26,26 @@ export default function Login(){
             if(check === 200){
                 navigate(-1, {replace:true});
             } else {
-                formik.setFieldError('email','Wrong');
-                formik.setFieldError('password', 'wrong');
-                setOtherError("Check credentials");
+                formik.setFieldError('email','wrong email');
+                formik.setFieldError('password', 'wrong password');
             }
             setIsLoading(false);
         }
     });
+    let errorText = "";
+    if (formik.submitCount !== 0 && !formik.isValid) {
+        errorText = Object.values(formik.errors).reduce(((prev, val) => prev + val + ', '), '');
+
+    }
+    if (errorText.length > 1) {
+        errorText = errorText.charAt(0).toUpperCase() + errorText.substring(1, errorText.length - 2);
+
+    } else {
+        errorText = "";
+    }
     return (<Container as="main">
         <Row className="my-5 py-5 justify-content-center">
-            <Col className="py-5 flex-grow-0">
+            <Col className="py-5 d-flex flex-column align-items-center">
             
                 <h2 className="w-auto text-center mb-5">Log in</h2>
                 <FloatingLabel label="Email" className="width-20 my-2">
@@ -48,7 +57,7 @@ export default function Login(){
                 </FloatingLabel>
                 <span>Don't have account? <Link to="/login/sign" replace>Register</Link></span>
                 <div style={{ height: "5rem" }} className="d-flex align-items-center">
-                    <Alert variant="danger" className="flex-grow-1" show={otherError !== ""}>{otherError}</Alert>
+                    <Alert variant="danger" className="flex-grow-1" show={errorText !== ""}>{errorText}</Alert>
                 </div>
                 <Button className="width-20" onClick={formik.submitForm}>{(isLoading) ?<div className="position-relative"> <Spinner animation="border" size="sm"></Spinner></div>: <>Confirm</>}</Button>
             </Col>
