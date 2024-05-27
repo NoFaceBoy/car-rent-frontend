@@ -6,7 +6,7 @@ export async function submitReservation(reservation) {
         res = await axios.post('/api/reservations/add', reservation).then(res => res.status);
 
     } catch (err) {
-        res = err.status;
+        res = err.response.status;
     }
     return res;
 }
@@ -20,7 +20,7 @@ export async function getReservationByUserId(user) {
             res = await axios.get(`/api/reservations/users/${user.id}`, { headers: { 'X-email': user.email, 'X-password': user.password } }).then(res => { return { status: res.status, data: res.data } });
         }
     } catch (err) {
-        res = { status: err.status, data: null };
+        res = { status: err.response.status, data: null };
     }
     return res;
 }
@@ -31,7 +31,7 @@ export async function updateReservationById(rro) {
     try {
         res = await axios.put(`/api/reservations/${rro.reservation_id}/${rro.action}`, rro.data).then(res => res.status);
     } catch (err) {
-        res = err.status;
+        res = err.response.status;
     }
     return res;
 }
