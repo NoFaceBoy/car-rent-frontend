@@ -1,6 +1,6 @@
 import AuthContext from "data/AuthContext";
 import ReservationContext from "data/ReservationContext";
-import { updateReservationById, getReservationByUserId, submitReservation } from "data/reservationApi";
+import { updateReservationById, getReservationByUserId, submitReservation, getReservationByCarId } from "data/reservationApi";
 import { useContext, useEffect, useState } from "react";
 
 export default function ReservationProvider({ children }) {
@@ -39,6 +39,7 @@ export default function ReservationProvider({ children }) {
         putReservation,
         getReservationByUser,
         updateReservation,
+        getReservationByCarId
     }}>
         {children}
     </ReservationContext.Provider>

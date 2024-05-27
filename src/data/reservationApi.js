@@ -35,3 +35,13 @@ export async function updateReservationById(rro) {
     }
     return res;
 }
+
+export async function getReservationByCarId(id) {
+    let res;
+    try {
+        res = await axios.get(`/api/reservations/cars/${id}`).then((resp) => {return {status: resp.status, data: resp.data}});
+    } catch (err) {
+        res = {status: err.status, data: null};
+    }
+    return res;
+}

@@ -1,15 +1,19 @@
-import TextWithGap from "elements/components/TextWithGap/TextWithGap";
+import axios from 'axios';
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Col, Row, Container, Button, Spinner, Modal } from "react-bootstrap";
-import { useLoaderData, useNavigate } from "react-router-dom";
-
+import TextWithGap from "elements/components/TextWithGap/TextWithGap";
 import './CarPage.scss';
 import CarContext from "data/CarContext";
 import AuthContext from "data/AuthContext";
+import ReservationContext from "data/ReservationContext";
+import {getReservationByCarId} from "../../../../data/reservationApi";
 
 export default function CarPage() {
     const id = useLoaderData();
     const { getCarById, setChosenCar, deleteCar } = useContext(CarContext);
+    const { getReservationByCarId } = useContext(ReservationContext);
+    const [ reservations, setReservations ] = useState([]);
     const nav = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [car, setCar] = useState(undefined);
@@ -19,9 +23,17 @@ export default function CarPage() {
     const load = () => {
         getCarById(id).then((val) => {
             setCar(val);
-        })
+        });
+
+        setLoading(true);
+        getReservationByCarId(id).then((newReservations) => {
+            setLoading(false);
+            setReservations(newReservations.data);
+            console.log(newReservations)
+        });
     };
-    useEffect(load, [id, getCarById]);
+
+    useEffect(load, []);
 
     const onReservationClick = () => {
         if (car !== undefined) {
@@ -69,6 +81,20 @@ export default function CarPage() {
                             <Button variant="primary width-form" onClick={onReservationClick}>Reserve</Button>
                         </Col>
 
+                    </Row>
+                    <h4 className="text-center text-secondary">Reservations</h4>
+                    <Row>
+                        {(reservations === null || reservations.length === 0) ? (
+                            <Col className='d-flex justify-content-center'>No reservations found.</Col>
+                        ) : (
+                            reservations.map(reservation => (
+                                <div key={reservation.id} className="mb-3 d-flex flex-column align-items-center">
+                                    <h6> Start Date - {new Date(reservation.start_date).toLocaleDateString()}</h6>
+                                    <h6> End Date - {new Date(reservation.end_date).toLocaleDateString()}</h6>
+                                    <h6 className="center">___________________________</h6>
+                                </div>
+                            ))
+                        )}
                     </Row>
                     {(user !== null && user.privilege_level === 'PRIVILEDGED') &&
                         <>
