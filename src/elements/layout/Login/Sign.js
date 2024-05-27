@@ -11,7 +11,6 @@ export default function Sign() {
     const { registerUser } = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [otherError, setOtherError] = useState("");
     const navigate = useNavigate();
     const nameRegex = /^[a-zA-z]+$/;
     const cityRegex = /^[\w',-\\/\s]+$/;
@@ -49,20 +48,20 @@ export default function Sign() {
             if (res === 201) {
                 navigate(-1, { replace: true });
             } else {
-                setOtherError('Wrong parameters');
+                formik.setFieldError('email', 'Email already in use');
             }
         }
     });
-    let errorText = otherError;
+    let errorText = "";
     if (formik.submitCount !== 0 && !formik.isValid) {
         errorText = Object.values(formik.errors).reduce(((prev, val) => prev + val + ', '), '');
 
-    }
-    if (errorText.length > 1) {
-        errorText = errorText.charAt(0).toUpperCase() + errorText.substring(1, errorText.length - 2);
+        if (errorText.length > 1) {
+            errorText = errorText.charAt(0).toUpperCase() + errorText.substring(1, errorText.length - 2);
 
-    } else {
-        errorText = "";
+        } else {
+            errorText = "";
+        }
     }
     return (<Container as="main">
         <Row className="my-5 py-5 justify-content-center">
