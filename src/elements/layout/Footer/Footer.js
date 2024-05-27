@@ -8,14 +8,14 @@ function Footer() {
         width: "2rem",
         height: "2rem"
     };
-    return <Container fluid as='footer' className="border-top border-dark px-lg-5">
+    return <Container fluid as='footer' className="border-top border-dark">
         <Row className="justify-content-stretch mx-lg-5 py-3 border-bottom border-dark flex-column flex-md-row">
             <Col>
                 <h5 className="fw-bold">
                     About us
                 </h5>
-                <p className="fs-6 pe-5 mw-100">
-                    We are company which has large ambitious. We have the best prices on the market. So buy our stuff. Please.
+                <p className="fs-6 mw-100">
+                    Wind Cars makes everything to save your time and money.
                 </p>
             </Col>
             <Col className="d-flex justify-content-center align-items-center">
@@ -28,7 +28,7 @@ function Footer() {
                 <SocialIcon network='twitter' className="mx-1" style={iconStyle}/>
             </Col>
         </Row>
-        <p className="text-center text-muted py-3">2022 &#169;Copyright all rights reserved</p>
+        <p className="text-center text-muted py-3">Copyright &#169; 2024 Wind Cars | All Rights Reserved</p>
     </Container>
 }
 

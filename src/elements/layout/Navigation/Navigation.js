@@ -16,7 +16,7 @@ function Navigation() {
     const { user, signOut } = useContext(AuthContext);
     const navigate = useNavigate();
     return (
-        <Navbar className="px-1 border-bottom border-dark" expand="lg" bg="light" >
+        <Navbar className="px-1 border-bottom border-dark" expand="lg"  >
             <Container>
                 <Col><Logo /></Col>
                 <Navbar.Toggle aria-controls="navbar-collapse-section" />
@@ -44,6 +44,7 @@ function Navigation() {
                                 <Dropdown.Item onClick={() => navigate('/reservation/history')}>Reservations</Dropdown.Item>
                                 {(user.privilege_level === "PRIVILEDGED") &&
                                     <Dropdown.Item onClick={() => navigate('/cars/add')}>Add a car</Dropdown.Item>}
+                                <Dropdown.Item onClick={() => navigate('/report')}>Report</Dropdown.Item>
                                 <Dropdown.Item onClick={signOut}>Sign out</Dropdown.Item></>
                                 :
                                 <Dropdown.Item onClick={() => navigate('/login')}>Login</Dropdown.Item>

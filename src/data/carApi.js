@@ -12,6 +12,16 @@ export async function getCarsByFilter(params) {
     return res.data;
 }
 
+export async function getReports(user) {
+    let res;
+    try {
+        res = await axios.get(`/api/cars/report`, {headers:{'X-email': user.email, 'X-password': user.password}}).then(res => {return {status: res.status, data: res.data}});
+    } catch (err) {
+        res = {status: err.status, data: null};
+    }
+    return res;
+}
+
 export async function addCar(car_obj) {
     let res;
     try {

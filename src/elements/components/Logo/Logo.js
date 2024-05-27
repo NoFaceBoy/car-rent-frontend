@@ -11,7 +11,7 @@ function Logo() {
             height="30"
             className="d-inline-block align-top me-2"
             alt= "Logo" />
-        D-store
+        Wind Cars
     </Navbar.Brand>;
 }
 
