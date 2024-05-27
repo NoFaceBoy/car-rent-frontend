@@ -61,6 +61,8 @@ export default function Reservation() {
                 setErrorText("couldn't authenticate with user")
             } else if (res === 400) {
                 setErrorText("couldn't put reservation");
+            } else if (res === 409) {
+                setErrorText("the car is taken during this time");
             } else {
                 setErrorText("something really bad happened");
             }

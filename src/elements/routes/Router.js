@@ -53,7 +53,7 @@ export default function Router() {
                     element: <Reservation />
                 },
                 {
-                    path: "/cart/success",
+                    path: "/reservation/success",
                     element: <Success />
                 },
                 {
