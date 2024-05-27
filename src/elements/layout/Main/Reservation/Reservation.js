@@ -86,7 +86,10 @@ export default function Reservation() {
         }
         return diff;
     };
-    let errorText = otherError + ", ";
+    let errorText = "";
+    if (otherError.length !== 0) {
+        errorText = otherError + ", ";
+    }
     if (formik.submitCount !== 0 && !formik.isValid) {
         errorText = Object.values(formik.errors).reduce(((prev, val) => prev + val + ', '), '');
 
