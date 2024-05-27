@@ -11,6 +11,7 @@ import ReservationHistory from "elements/layout/Main/Reservation/ReservationHist
 import CarListing from "elements/layout/Main/CarListing/CarListing";
 import CarPage from "elements/layout/Main/Car/CarPage";
 import CarEdit from "elements/layout/Main/Car/CarEdit";
+import Payment from "elements/layout/Main/Reservation/Payment";
 import Report from "elements/layout/Main/Report/Report"
 
 
@@ -54,6 +55,10 @@ export default function Router() {
                 {
                     path: "/cart/success",
                     element: <Success />
+                },
+                {
+                    path: "/reservation/payment",
+                    element: <Payment />
                 },
                 {
                     path: "/reservation/history",

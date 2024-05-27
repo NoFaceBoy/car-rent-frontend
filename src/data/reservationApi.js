@@ -14,9 +14,13 @@ export async function submitReservation(reservation) {
 export async function getReservationByUserId(user) {
     let res;
     try {
-        res = await axios.get(`/api/reservations/users/${user.id}`, {headers:{'X-email': user.email, 'X-password': user.password}}).then(res => {return {status: res.status, data: res.data}});
+        if (user.privilege_level === "PRIVILEDGED") {
+            res = await axios.get(`/api/reservations`).then(res => { return { status: res.status, data: res.data } });
+        } else {
+            res = await axios.get(`/api/reservations/users/${user.id}`, { headers: { 'X-email': user.email, 'X-password': user.password } }).then(res => { return { status: res.status, data: res.data } });
+        }
     } catch (err) {
-        res = {status: err.status, data: null};
+        res = { status: err.status, data: null };
     }
     return res;
 }

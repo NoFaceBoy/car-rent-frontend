@@ -14,9 +14,8 @@ obj user = {
 
 const credentialKey = 'credential';
 
-async function saveUser(user) {
-    let res = await registerUser(user);
-    return res
+async function saveUser(email, password) {
+    localStorage.setItem(credentialKey, JSON.stringify({email: email, password: password}))
 }
 
 
@@ -28,16 +27,18 @@ export default function AuthProvider({ children }) {
             return null;
         }
         const res = await loginUser(JSON.parse(buf));
-        if (res.status === 201) {
+        if (res.status === 200) {
             setUser(res.data);
+
         }
     }
-    useEffect(() => {loadUser()});
+    useEffect(() => {loadUser()}, []);
 
 
-    const registerUser = async (user) => {
-        const res = await saveUser(user);
+    const registerUserInt = async (user) => {
+        const res = await registerUser(user);
         if (res.status === 201) {
+            saveUser(user.email, user.password);
             setUser(res.data);
         }
         return res.status;
@@ -46,6 +47,7 @@ export default function AuthProvider({ children }) {
     const checkLogin = async (login) => {
         const res = await loginUser(login);
         if (res.status === 200) {
+            saveUser(login.email, login.password);
             setUser(res.data);
             return res.status;
         } else {
@@ -54,11 +56,12 @@ export default function AuthProvider({ children }) {
     }
     const signOut = () => {
         setUser(null);
+        localStorage.removeItem(credentialKey);
     } 
 
     return <AuthContext.Provider value={{
         user,
-        registerUser,
+        registerUser: registerUserInt,
         checkLogin,
         signOut
     }}>
